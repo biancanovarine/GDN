@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mídias 360 - Relatório Executivo de Performance (Dr. Antonio Hirt)</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                            950: '#042f2e',
+                        },
+                        amber: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet JS & CSS (Interactive Map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        #leafletMap {
+            height: 380px;
+            width: 100%;
+            border-radius: 1.5rem;
+            z-index: 10;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white;
+            }
+            .print-card {
+                box-shadow: none !important;
+                border: 1px solid #e2e8f0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- NAV BAR PRINCIPAL (ESTILO REFERÊNCIA) -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 no-print">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Left Side: Avatar + Professional Info -->
+            <div class="flex items-center gap-3.5">
+                <div class="h-11 w-11 rounded-2xl bg-teal-600 flex items-center justify-center text-white font-black text-base shadow-sm">
+                    AH
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight text-slate-900">Dr. Antonio Hirt</h1>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-slate-500 font-medium">Gastroenterologia & Testes SIBO/IMO</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Google Partner & Doctoralia VIP Badges -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Google Partner Badge -->
+                <div class="hidden sm:flex items-center gap-2 bg-white border border-slate-200/90 px-3.5 py-1.5 rounded-2xl shadow-xs">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span class="text-xs font-bold text-slate-700">Google Partner</span>
+                </div>
+
+                <!-- Doctoralia VIP Badge -->
+                <div class="flex items-center gap-2 bg-teal-50/80 border border-teal-100 px-3.5 py-1.5 rounded-2xl">
+                    <div class="flex items-center gap-0.5 text-amber-400">
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <span class="text-xs font-black tracking-wider text-teal-900">DOCTORALIA VIP</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTAINER PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
+        
+        <!-- SUBHEADER HERO EXECUTIVO (ESTILO MODELO CENNDOR) -->
+        <section class="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-sm border border-slate-100 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 print-card">
+            <div class="space-y-3">
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <span class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-100/80 px-3 py-1 rounded-full uppercase tracking-wider">
+                        RELATÓRIO EXECUTIVO AUTOINTERPRETATIVO
+                    </span>
+                    <span class="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                        PERÍODO: 01/08/2026 – 13/09/2026
+                    </span>
+                </div>
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Performance Mídias 360 & Doctoralia</h2>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mt-1">Análise consolidada de tráfego, reputação e aquisição de pacientes para Dr. Antonio Hirt</p>
+                </div>
+            </div>
+
+            <!-- Bloco de Ações e CPCs Segmentados (GDN + Pesquisa) -->
+            <div class="flex flex-wrap items-center gap-3 sm:gap-4 w-full md:w-auto justify-start md:justify-end">
+                <!-- CPC GDN Card Dark -->
+                <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl flex flex-col justify-center border border-slate-800 shadow-sm min-w-[135px]">
+                    <span class="text-[9px] font-extrabold uppercase tracking-widest text-teal-400">CPC GDN (DISPLAY)</span>
+                    <span class="text-xl font-black text-teal-300 leading-tight mt-0.5">R$ 0,16</span>
+                    <span class="text-[9px] text-slate-400 font-medium mt-0.5">Alta Escala Regional</span>
+                </div>
+
+                <!-- CPC Pesquisa Card Dark -->
+                <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl flex flex-col justify-center border border-slate-800 shadow-sm min-w-[135px]">
+                    <span class="text-[9px] font-extrabold uppercase tracking-widest text-amber-400">CPC PESQUISA (BUSCA)</span>
+                    <span class="text-xl font-black text-amber-400 leading-tight mt-0.5">R$ 1,74</span>
+                    <span class="text-[9px] text-slate-400 font-medium mt-0.5">Alta Intenção de Consulta</span>
+                </div>
+
+                <!-- Botão Exportar / Imprimir -->
+                <button onclick="window.print()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-5 py-4 rounded-2xl transition duration-200 flex items-center justify-center gap-2 shadow-md shadow-slate-900/10 hover:shadow-slate-900/20 no-print text-sm">
+                    <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-3a2 2 0 00-2-2H9a2 2 0 00-2 2v3a2 2 0 002 2zm0 0v-4h10v4H9z"/></svg>
+                    <span>Exportar Relatório</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 1: ALCANCE DO ANÚNCIO NO GOOGLE & DOCTORALIA (5 CARDS EXECUTIVOS) -->
+        <section class="space-y-4">
+            <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">1. Alcance do Anúncio no Google & Doctoralia</h2>
+            
+            <!-- Box Explicativo Autointerpretativo -->
+            <div class="bg-teal-50/60 border border-teal-100 rounded-2xl p-4 text-xs sm:text-sm text-slate-700 flex items-start sm:items-center gap-2.5">
+                <span class="text-base">💡</span>
+                <p>
+                    <strong class="font-bold text-slate-900">O que é este item:</strong> Apresenta o volume total de vezes que sua marca foi exibida nos resultados de pesquisa e display, a quantidade de acessos gerados para os seus canais, as taxas de CTR comparadas às médias saudáveis de mercado e os contatos diretos gerados.
+                </p>
+            </div>
+
+            <!-- Grid de 5 Cards no Topo -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 pt-2">
+                
+                <!-- Card 1: Impressões Totais -->
+                <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex flex-col justify-between print-card">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">IMPRESSÕES TOTAIS</span>
+                        <div class="text-3xl font-black text-slate-950 mt-3">1.087.940</div>
+                    </div>
+                    <div class="mt-4 text-xs font-semibold text-teal-700">
+                        Pesquisas & Display no Google
+                    </div>
+                </div>
+
+                <!-- Card 2: Cliques Diretos -->
+                <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex flex-col justify-between print-card">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">CLIQUES DIRETOS</span>
+                        <div class="text-3xl font-black text-slate-950 mt-3">10.393</div>
+                    </div>
+                    <div class="mt-4 text-xs font-semibold text-teal-700">
+                        Tráfego Qualificado Gerado
+                    </div>
+                </div>
+
+                <!-- Card 3: CTR Duplo Segmentado (Pesquisa vs GDN com benchmarks) -->
+                <div class="bg-amber-50/40 rounded-[2rem] p-5 shadow-sm border border-amber-200 flex flex-col justify-between print-card">
+                    <div>
+                        <span class="text-[11px] font-bold text-amber-800 uppercase tracking-wider block">CTR DE PERFORMANCE</span>
+                        
+                        <div class="mt-2 space-y-2">
+                            <!-- Pesquisa -->
+                            <div class="bg-white/80 rounded-xl p-2 border border-amber-200/80">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-extrabold text-slate-600 uppercase">Pesquisa</span>
+                                    <span class="text-base font-black text-teal-700">8,05%</span>
+                                </div>
+                                <div class="text-[9px] font-bold text-emerald-600 mt-0.5">
+                                    ▲ Mercado Saúde: 3,17%
+                                </div>
+                            </div>
+
+                            <!-- GDN -->
+                            <div class="bg-white/80 rounded-xl p-2 border border-amber-200/80">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[10px] font-extrabold text-slate-600 uppercase">GDN Display</span>
+                                    <span class="text-base font-black text-amber-600">0,87%</span>
+                                </div>
+                                <div class="text-[9px] font-bold text-emerald-600 mt-0.5">
+                                    ▲ Mercado Display: 0,46%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-[10px] font-black text-amber-900">
+                        ✓ Ambas acima da média saudável!
+                    </div>
+                </div>
+
+                <!-- Card 4: Acessos Totais Perfil (Atualizado para 12.898 com 80% de campanha) -->
+                <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 flex flex-col justify-between print-card">
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">ACESSOS TOTAIS PERFIL</span>
+                        <div class="text-3xl font-black text-slate-950 mt-3">12.898</div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="inline-flex items-center gap-1.5 bg-teal-50 border border-teal-100 px-2.5 py-1 rounded-lg">
+                            <span class="h-2 w-2 rounded-full bg-teal-600 animate-pulse"></span>
+                            <span class="text-xs font-black text-teal-900">80,6% vieram da campanha</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 block mt-1">10.393 entradas ativas via Google</span>
+                    </div>
+                </div>
+
+                <!-- Card 5: Cliques no Telefone (Card Sólido Teal com Texto Branco) -->
+                <div class="bg-teal-700 rounded-[2rem] p-6 shadow-sm border border-teal-800 flex flex-col justify-between text-white print-card">
+                    <div>
+                        <span class="text-xs font-bold text-teal-100 uppercase tracking-wider">CLIQUES NO TELEFONE</span>
+                        <div class="text-3xl font-black text-white mt-3">639</div>
+                    </div>
+                    <div class="mt-4 text-xs font-medium text-teal-100">
+                        Contatos Diretos Iniciados
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sub-faixa complementar: Ações Adicionais (Instagram & Conversões) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <div class="bg-white rounded-2xl px-5 py-3.5 border border-slate-100 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-pink-50 rounded-xl text-pink-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H7zm5 3a5 5 0 110 10 5 5 0 010-10zm0 2a3 3 0 100 6 3 3 0 000-6zm5.5-.75a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z"/></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Cliques no Instagram</span>
+                            <span class="text-lg font-black text-slate-900">447 conexões</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold text-pink-700 bg-pink-50 px-2.5 py-1 rounded-full">Engajamento Social</span>
+                </div>
+
+                <div class="bg-white rounded-2xl px-5 py-3.5 border border-slate-100 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-amber-50 rounded-xl text-amber-600">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Conversões Validadas</span>
+                            <span class="text-lg font-black text-slate-900">97 ações primárias</span>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full">Captação Ativa</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: SALTO EXPONENCIAL DE VISIBILIDADE DO PERFIL (PRINT DA DOCTORALIA) -->
+        <section class="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-sm border border-slate-100 print-card space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="h-2.5 w-2.5 rounded-full bg-teal-600"></span>
+                        <h3 class="text-xl font-black text-slate-900 tracking-tight">Salto de Visibilidade do Perfil (Histórico 2026)</h3>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+                        Evolução mensal de visualizações no perfil Doctoralia evidenciando a explosão de alcance a partir de Agosto com a ativação da Rede de Display
+                    </p>
+                </div>
+                <span class="text-xs font-bold text-teal-800 bg-teal-50 border border-teal-100 px-3 py-1.5 rounded-full w-fit">
+                    🚀 +400% de Aumento em Agosto
+                </span>
+            </div>
+
+            <!-- Gráfico de Visibilidade do Print -->
+            <div class="h-64 w-full relative">
+                <canvas id="profileVisibilityChart"></canvas>
+            </div>
+
+            <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-xs text-slate-600">
+                    <span class="text-base">📈</span>
+                    <span><strong>Impacto do GDN:</strong> O perfil manteve estabilidade entre janeiro e julho. Em agosto, com a ativação da cobertura local de 20 km, o volume de pacientes conhecendo o Dr. Antonio Hirt atingiu o patamar máximo do ano.</span>
+                </div>
+                <div class="shrink-0 text-xs font-black text-teal-700 bg-teal-100/70 px-3 py-1 rounded-xl">
+                    12.898 Acessos Registrados
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: O IMPACTO DIRETO DO GDN (COMPARATIVO HISTÓRICO 3 MESES VS. ATIVAÇÃO GDN) -->
+        <section class="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-sm border border-slate-100 print-card space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="h-2.5 w-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                        <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">O Impacto Transformador da Rede de Display (GDN)</h2>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-500">
+                        Comparativo analítico entre a <strong class="text-slate-800 font-semibold">média mensal do trimestre anterior</strong> (sem GDN) versus o <strong class="text-slate-800 font-semibold">período atual com GDN ativo</strong>.
+                    </p>
+                </div>
+                <div class="flex items-center gap-2 bg-amber-50 border border-amber-200/80 px-3.5 py-1.5 rounded-2xl w-fit">
+                    <span class="text-base">⚡</span>
+                    <span class="text-xs font-black text-amber-900 uppercase tracking-wide">Efeito Multiplicador Comprovado</span>
+                </div>
+            </div>
+
+            <!-- Grid de 5 Cards Comparativos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                
+                <!-- Card 1: Impressões Mensais -->
+                <div class="bg-slate-50/70 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Impressões / Mês</span>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <span class="text-xs text-slate-400">Antes: 11,6k</span>
+                            <span class="text-xl font-black text-teal-800">~725k/mês</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-500 font-medium">Escala de Marca</span>
+                        <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">+6.150%</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Cliques Mensais -->
+                <div class="bg-slate-50/70 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Cliques / Mês</span>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <span class="text-xs text-slate-400">Antes: 867</span>
+                            <span class="text-xl font-black text-teal-800">~6.928/mês</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-500 font-medium">Tráfego Qualificado</span>
+                        <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">+699%</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Conversões Validadas -->
+                <div class="bg-slate-50/70 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Conversões Validadas</span>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <span class="text-xs text-slate-400">Antes: 65,7 / mês</span>
+                            <span class="text-xl font-black text-amber-600">97 no período</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-500 font-medium">Ritmo de Captação</span>
+                        <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">97 em 1,5 mês</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Cliques Instagram -->
+                <div class="bg-slate-50/70 rounded-2xl p-5 border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Instagram / Mês</span>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <span class="text-xs text-slate-400">Antes: 152</span>
+                            <span class="text-xl font-black text-pink-600">~298/mês</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between">
+                        <span class="text-[10px] text-slate-500 font-medium">Engajamento Social</span>
+                        <span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">+96%</span>
+                    </div>
+                </div>
+
+                <!-- Card 5: Agendamentos Doctoralia -->
+                <div class="bg-teal-700 text-white rounded-2xl p-5 border border-teal-800 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <span class="text-[10px] font-bold text-teal-200 uppercase tracking-wider block">Agendamentos Online</span>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <span class="text-xs text-teal-200">Antes: 127/mês</span>
+                            <span class="text-xl font-black text-white">250 no período</span>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-teal-600/70 flex items-center justify-between">
+                        <span class="text-[10px] text-teal-100 font-medium">Ritmo de Agendas</span>
+                        <span class="text-xs font-black text-amber-300 bg-teal-900/80 px-2 py-0.5 rounded-md">+96,8%</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Tabela Executiva Detalhada de Comparação -->
+            <div class="overflow-x-auto rounded-2xl border border-slate-100">
+                <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                            <th class="py-3.5 px-5">Indicador de Performance</th>
+                            <th class="py-3.5 px-5 text-right">Histórico Trimestral (Total 3 Meses)</th>
+                            <th class="py-3.5 px-5 text-right">Média Mensal Anterior (Sem GDN)</th>
+                            <th class="py-3.5 px-5 text-right bg-teal-50/50 text-teal-950 font-bold">Período Atual (Com GDN Ativo)</th>
+                            <th class="py-3.5 px-5 text-right">Impacto Direto / Crescimento</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-3.5 px-5 font-bold text-slate-900">Impressões do Google</td>
+                            <td class="py-3.5 px-5 text-right text-slate-500">35.000</td>
+                            <td class="py-3.5 px-5 text-right text-slate-600 font-semibold">11.667 / mês</td>
+                            <td class="py-3.5 px-5 text-right bg-teal-50/30 font-black text-teal-900">1.087.940 (Total)</td>
+                            <td class="py-3.5 px-5 text-right"><span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">▲ +6.150% em Escala</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-3.5 px-5 font-bold text-slate-900">Cliques Diretos Gerados</td>
+                            <td class="py-3.5 px-5 text-right text-slate-500">2.600</td>
+                            <td class="py-3.5 px-5 text-right text-slate-600 font-semibold">867 / mês</td>
+                            <td class="py-3.5 px-5 text-right bg-teal-50/30 font-black text-teal-900">10.393 (Total)</td>
+                            <td class="py-3.5 px-5 text-right"><span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">▲ +699% no Tráfego</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-3.5 px-5 font-bold text-slate-900">Taxa de Cliques (CTR Pesquisa)</td>
+                            <td class="py-3.5 px-5 text-right text-slate-500">7,40%</td>
+                            <td class="py-3.5 px-5 text-right text-slate-600 font-semibold">7,40% (Só Busca)</td>
+                            <td class="py-3.5 px-5 text-right bg-teal-50/30 font-black text-teal-900">8,05% (Pesquisa)</td>
+                            <td class="py-3.5 px-5 text-right"><span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">▲ +0,65 p.p. (Refinado)</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-3.5 px-5 font-bold text-slate-900">Conversões Diretas</td>
+                            <td class="py-3.5 px-5 text-right text-slate-500">197 ações</td>
+                            <td class="py-3.5 px-5 text-right text-slate-600 font-semibold">65,7 / mês</td>
+                            <td class="py-3.5 px-5 text-right bg-teal-50/30 font-black text-amber-700">97 ações (Período)</td>
+                            <td class="py-3.5 px-5 text-right"><span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">▲ 97 em apenas 44 dias</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-3.5 px-5 font-bold text-slate-900">Cliques / Conexões no Instagram</td>
+                            <td class="py-3.5 px-5 text-right text-slate-500">455</td>
+                            <td class="py-3.5 px-5 text-right text-slate-600 font-semibold">152 / mês</td>
+                            <td class="py-3.5 px-5 text-right bg-teal-50/30 font-black text-pink-700">447 conexões</td>
+                            <td class="py-3.5 px-5 text-right"><span class="text-xs font-black text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">▲ +96% no Ritmo Mensal</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/50 transition bg-teal-50/20 font-semibold">
+                            <td class="py-3.5 px-5 font-extrabold text-teal-950">Agendamentos Online Doctoralia</td>
+                            <td class="py-3.5 px-5 text-right text-slate-600">380 (no trimestre)</td>
+                            <td class="py-3.5 px-5 text-right text-slate-700 font-bold">127 / mês</td>
+                            <td class="py-3.5 px-5 text-right bg-teal-100/40 font-black text-teal-900">250 no período atual</td>
+                            <td class="py-3.5 px-5 text-right"><span class="text-xs font-black text-teal-800 bg-teal-100 px-2.5 py-1 rounded-full">▲ +96,8% no Volume</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Síntese Analítica Estratégica -->
+            <div class="bg-gradient-to-r from-teal-900 to-slate-900 rounded-2xl p-5 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Conclusão Estratégica da Consultoria</span>
+                    <p class="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-3xl">
+                        A entrada do GDN não substituiu a Pesquisa: ela <strong>potencializou todo o ecossistema</strong>. Ao massificar a lembrança de marca no raio de 20 km a um custo unitário quase nulo (R$ 0,16), a taxa de conversão em agendamentos praticamente dobrou (+96,8%), superando em 1,5 mês o ritmo que antes levava um trimestre inteiro.
+                    </p>
+                </div>
+                <div class="shrink-0 text-center bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-4 py-3">
+                    <div class="text-xs text-amber-300 font-semibold uppercase tracking-wider">Eficiência de Aquisição</div>
+                    <div class="text-2xl font-black text-white mt-0.5">2x Mais Rápido</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: ABRANGÊNCIA GEOGRÁFICA & RAIO DE 20 KM -->
+        <section class="space-y-6">
+            <div class="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-sm border border-slate-100 space-y-6 print-card">
+                <div class="space-y-3 border-b border-slate-100 pb-5">
+                    <div>
+                        <h3 class="text-xl font-extrabold text-slate-900 tracking-tight">Consultório Dr. Antonio Hirt & Raio de 20 km</h3>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Localização na Rua Amintas de Barros, 519 (Centro, Curitiba) e cobertura expandida de 20 km na Grande Curitiba</p>
+                    </div>
+
+                    <!-- Badges de Raios de Cobertura -->
+                    <div class="flex flex-wrap items-center gap-4 text-xs font-bold pt-1">
+                        <div class="flex items-center gap-2">
+                            <span class="h-3 w-3 rounded-full bg-teal-500"></span>
+                            <span class="text-slate-700">Raio 5 km (Centro & Bairros Nobres de Curitiba)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="h-3 w-3 rounded-full bg-teal-700"></span>
+                            <span class="text-slate-700">Raio 10 km (Malha Urbana Completa)</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="h-3 w-3 rounded-full bg-amber-500"></span>
+                            <span class="text-slate-700">Raio 20 km (Região Metropolitana / Alta Abrangência)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaflet Canvas Container -->
+                <div id="leafletMap" class="shadow-inner border border-slate-200/80"></div>
+
+                <!-- Card de Endereço da Clínica -->
+                <div class="bg-teal-50/70 border border-teal-100 rounded-2xl p-4 flex items-center gap-3">
+                    <div class="h-10 w-10 rounded-xl bg-teal-600 flex items-center justify-center text-white shrink-0 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block">Endereço do Consultório:</span>
+                        <p class="text-sm font-extrabold text-slate-900">Rua Amintas de Barros, 519 (Cj. 103), Centro - Curitiba / PR, CEP 80060-200 • Raio Ativo de 20 km</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: CAMPANHAS GOOGLE ADS (GDN UNIFICADO + PESQUISA) -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-teal-600"></span>
+                    <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Desempenho Consolidado de Campanhas (Google Ads)</h2>
+                </div>
+                <p class="text-sm text-slate-500">Unificação das frentes de Rede de Display (GDN) e detalhamento das campanhas de Rede de Pesquisa de alta intenção.</p>
+            </div>
+
+            <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden print-card">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50 border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                <th class="py-4 px-6">Identificação da Campanha</th>
+                                <th class="py-4 px-6 text-right">Impressões</th>
+                                <th class="py-4 px-6 text-right">Cliques</th>
+                                <th class="py-4 px-6 text-right">CTR</th>
+                                <th class="py-4 px-6 text-right">CPC Médio</th>
+                                <th class="py-4 px-6 text-right">Topo Pág. (Top 3)</th>
+                                <th class="py-4 px-6 text-right">1ª Posição Abs.</th>
+                                <th class="py-4 px-6 text-right">Parcela de Leilão</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-sm">
+                            
+                            <!-- Linha 1: GDN Unificado (Consolidando as 4 linhas de display) -->
+                            <tr class="hover:bg-slate-50/50 transition bg-teal-50/30 font-semibold">
+                                <td class="py-4 px-6 font-bold text-teal-950">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-2 w-2 rounded-full bg-teal-600"></div>
+                                        <span>Rede de Display (GDN - Consolidado)</span>
+                                    </div>
+                                    <span class="text-[11px] font-normal text-slate-400 block mt-0.5">Unificação de 4 conjuntos de anúncios de alcance e reconhecimento</span>
+                                </td>
+                                <td class="py-4 px-6 text-right text-teal-900 font-bold">1.074.296</td>
+                                <td class="py-4 px-6 text-right text-teal-900 font-bold">9.295</td>
+                                <td class="py-4 px-6 text-right font-black text-amber-600">0,87%</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-bold">R$ 0,16</td>
+                                <td class="py-4 px-6 text-right text-slate-400">—</td>
+                                <td class="py-4 px-6 text-right text-slate-400">—</td>
+                                <td class="py-4 px-6 text-right text-slate-400">—</td>
+                            </tr>
+
+                            <!-- Linha 2: Especialidade (Gastroenterologia) -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-900">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-2 w-2 rounded-full bg-teal-500"></div>
+                                        <span>Especialidade (Gastroenterologia Geral)</span>
+                                    </div>
+                                    <span class="text-[11px] font-normal text-slate-400 block mt-0.5">Rede de Pesquisa com termos de alta intenção clínica</span>
+                                </td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-medium">8.970</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-medium">797</td>
+                                <td class="py-4 px-6 text-right font-bold text-teal-700">8,89%</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">R$ 1,72</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">75,89%</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">37,32%</td>
+                                <td class="py-4 px-6 text-right font-bold text-slate-900">25,88%</td>
+                            </tr>
+
+                            <!-- Linha 3: Serviços (SIBO/IMO) -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-900">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-2 w-2 rounded-full bg-amber-500"></div>
+                                        <span>Serviços (Testes SIBO / IMO)</span>
+                                    </div>
+                                    <span class="text-[11px] font-normal text-slate-400 block mt-0.5">Diagnósticos respiratórios especializados e exames</span>
+                                </td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-medium">4.426</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-medium">263</td>
+                                <td class="py-4 px-6 text-right font-bold text-teal-700">5,94%</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">R$ 1,91</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">75,55%</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">16,19%</td>
+                                <td class="py-4 px-6 text-right font-bold text-slate-900">21,54%</td>
+                            </tr>
+
+                            <!-- Linha 4: Institucional -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-900">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-2 w-2 rounded-full bg-slate-400"></div>
+                                        <span>Institucional (Dr. Antonio Hirt)</span>
+                                    </div>
+                                    <span class="text-[11px] font-normal text-slate-400 block mt-0.5">Proteção e valorização do nome do especialista</span>
+                                </td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-medium">248</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-medium">38</td>
+                                <td class="py-4 px-6 text-right font-black text-teal-700">15,32%</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">R$ 1,02</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">79,71%</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">69,57%</td>
+                                <td class="py-4 px-6 text-right font-bold text-slate-900">78,98%</td>
+                            </tr>
+
+                            <!-- TOTAL CONSOLIDADO -->
+                            <tr class="bg-slate-50 font-bold border-t-2 border-slate-200">
+                                <td class="py-5 px-6 text-slate-950 font-extrabold">Total Consolidado (Display + Pesquisa)</td>
+                                <td class="py-5 px-6 text-right text-slate-950 font-black">1.087.940</td>
+                                <td class="py-5 px-6 text-right text-teal-700 font-black">10.393</td>
+                                <td class="py-5 px-6 text-right text-amber-600 font-black">0,96%</td>
+                                <td class="py-5 px-6 text-right text-slate-950 font-black">R$ 0,33</td>
+                                <td class="py-5 px-6 text-right text-teal-800 font-bold">75,8%*</td>
+                                <td class="py-5 px-6 text-right text-teal-800 font-bold">31,0%*</td>
+                                <td class="py-5 px-6 text-right text-slate-700 font-semibold">—</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <p class="text-xs text-slate-400 italic">
+                *Nota Analítica: A Rede de Display gerou mais de 1 milhão de impressões com um CPC extremamente econômico de R$ 0,16, alimentando a lembrança de marca no raio de 20 km. Simultaneamente, as campanhas de Pesquisa apresentaram dominância superior a 75% no Top 3 do Google com CTR médio de 8,05%, capturando pacientes decididos a agendar.
+            </p>
+        </section>
+
+        <!-- SEÇÃO 4: DETALHAMENTO DO GDN (DISPOSITIVOS & LOCAIS MAIS EXIBIDOS) -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-teal-600"></span>
+                    <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Detalhamento da Rede de Display (GDN) & Inventário</h2>
+                </div>
+                <p class="text-sm text-slate-500">Distribuição tecnológica dos anúncios por tipo de dispositivo e os principais veículos de veiculação na Grande Curitiba.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1: Distribuição por Dispositivos (95% Smartphone) -->
+                <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 flex flex-col justify-between print-card">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full w-fit block">Distribuição por Dispositivo</span>
+                        <h3 class="text-lg font-black text-slate-900">95% Mobile (Smartphones)</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            O consumo dos anúncios de display ocorre massivamente em dispositivos móveis, refletindo o hábito imediato de pesquisa em saúde na região de Curitiba.
+                        </p>
+                    </div>
+
+                    <!-- Visual Progress Representation -->
+                    <div class="my-6 space-y-4">
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-bold text-slate-700">
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                                    <span>Smartphones</span>
+                                </span>
+                                <span class="text-teal-700 font-black text-sm">95%</span>
+                            </div>
+                            <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-teal-600 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs font-bold text-slate-700">
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                    <span>Computadores & Tablets</span>
+                                </span>
+                                <span class="text-slate-500 font-bold text-sm">5%</span>
+                            </div>
+                            <div class="h-3 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-slate-300 rounded-full" style="width: 5%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 text-xs text-slate-500">
+                        Design 100% responsivo otimizado para carregamento ultra-rápido no 4G/5G do paciente.
+                    </div>
+                </div>
+
+                <!-- Tabela dos Sites Mais Exibidos (2/3) -->
+                <div class="lg:col-span-2 bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden print-card p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-4">
+                            <div>
+                                <h3 class="text-lg font-bold text-slate-900">Veículos & Sites Mais Exibidos no Raio de 20 km</h3>
+                                <p class="text-xs text-slate-400">Consolidação dos principais veículos da internet no raio geográfico de Curitiba</p>
+                            </div>
+                            <span class="text-xs font-bold text-teal-700 bg-teal-50 px-3 py-1 rounded-full w-fit">Otimização Semanal Ativa</span>
+                        </div>
+
+                        <div class="overflow-x-auto max-h-[460px] overflow-y-auto">
+                            <table class="w-full text-left border-collapse text-sm">
+                                <thead class="sticky top-0 bg-white z-10">
+                                    <tr class="text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                                        <th class="py-3 px-4">Canal / Veículo de Exibição</th>
+                                        <th class="py-3 px-4">Categoria de Mídia</th>
+                                        <th class="py-3 px-4 text-right">Impressões</th>
+                                        <th class="py-3 px-4 text-right">Taxa de Interação</th>
+                                        <th class="py-3 px-4 text-right">Governança Mídias 360</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 text-xs sm:text-sm">
+                                    <!-- Terra.com.br Líder -->
+                                    <tr class="hover:bg-teal-50/40 transition bg-teal-50/20 font-semibold">
+                                        <td class="py-3.5 px-4 font-bold text-teal-950 flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-teal-600"></span>
+                                            <span>terra.com.br</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 text-slate-600 text-xs">Grande Portal de Notícias</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-teal-900">160.041</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-600">0,01%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-teal-700 bg-teal-100 px-2.5 py-0.5 rounded-full">Líder de Escala</span></td>
+                                    </tr>
+
+                                    <!-- OLX -->
+                                    <tr class="hover:bg-teal-50/40 transition bg-teal-50/20 font-semibold">
+                                        <td class="py-3.5 px-4 font-bold text-teal-950 flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-teal-600"></span>
+                                            <span>olx.com.br</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 text-slate-600 text-xs">Busca Local & Serviços Curitiba</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-teal-900">91.953</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-600">0,01%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-teal-700 bg-teal-100 px-2.5 py-0.5 rounded-full">Tráfego Regional</span></td>
+                                    </tr>
+
+                                    <!-- RainberryTV -->
+                                    <tr class="hover:bg-slate-50/50 transition">
+                                        <td class="py-3.5 px-4 font-bold text-slate-800">rainberrytv.com</td>
+                                        <td class="py-3.5 px-4 text-slate-500 text-xs">Streaming & Mídia Digital</td>
+                                        <td class="py-3.5 px-4 text-right font-semibold text-slate-700">49.246</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-500">0,00%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">Monitorado</span></td>
+                                    </tr>
+
+                                    <!-- NSC Total (Destaque Alta Interação) -->
+                                    <tr class="hover:bg-amber-50/40 transition bg-amber-50/20 font-semibold">
+                                        <td class="py-3.5 px-4 font-bold text-amber-950 flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                                            <span>nsctotal.com.br</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 text-amber-800 text-xs">Portal Regional Sul & Notícias</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-amber-900">46.478</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-amber-600">1,80%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">Alta Interação</span></td>
+                                    </tr>
+
+                                    <!-- Rádio ao Vivo -->
+                                    <tr class="hover:bg-slate-50/50 transition">
+                                        <td class="py-3.5 px-4 font-bold text-slate-800">radio-ao-vivo.com</td>
+                                        <td class="py-3.5 px-4 text-slate-500 text-xs">Rádio Online & Podcasts</td>
+                                        <td class="py-3.5 px-4 text-right font-semibold text-slate-700">44.681</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-500">0,00%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">Monitorado</span></td>
+                                    </tr>
+
+                                    <!-- 4devs -->
+                                    <tr class="hover:bg-slate-50/50 transition">
+                                        <td class="py-3.5 px-4 font-bold text-slate-800">4devs.com.br</td>
+                                        <td class="py-3.5 px-4 text-slate-500 text-xs">Utilitários & Serviços Web</td>
+                                        <td class="py-3.5 px-4 text-right font-semibold text-slate-700">17.741</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-500">0,01%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">Monitorado</span></td>
+                                    </tr>
+
+                                    <!-- Olhar Digital (Destaque Alta Interação) -->
+                                    <tr class="hover:bg-amber-50/40 transition bg-amber-50/20 font-semibold">
+                                        <td class="py-3.5 px-4 font-bold text-amber-950 flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                                            <span>olhardigital.com.br</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 text-amber-800 text-xs">Portal de Tecnologia & Notícias</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-amber-900">17.702</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-amber-600">1,92%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">Alta Interação</span></td>
+                                    </tr>
+
+                                    <!-- Banda B Curitiba (Hiperlocal Paranaense) -->
+                                    <tr class="hover:bg-teal-50/40 transition bg-teal-50/30 font-semibold">
+                                        <td class="py-3.5 px-4 font-bold text-teal-950 flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-teal-600"></span>
+                                            <span>bandab.com.br</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 text-teal-800 text-xs font-medium">Portal Líder de Notícias em Curitiba & RMC</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-teal-900">14.530</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-600 font-medium">0,00%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">Hiperlocal Curitiba</span></td>
+                                    </tr>
+
+                                    <!-- Metrópoles (Destaque Alta Interação) -->
+                                    <tr class="hover:bg-amber-50/40 transition bg-amber-50/20 font-semibold">
+                                        <td class="py-3.5 px-4 font-bold text-amber-950 flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                                            <span>metropoles.com</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 text-amber-800 text-xs">Grande Portal de Notícias</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-amber-900">27.334*</td>
+                                        <td class="py-3.5 px-4 text-right font-black text-amber-600">2,24%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">Alta Interação</span></td>
+                                    </tr>
+
+                                    <!-- Letras.mus.br -->
+                                    <tr class="hover:bg-slate-50/50 transition">
+                                        <td class="py-3.5 px-4 font-bold text-slate-800">letras.mus.br</td>
+                                        <td class="py-3.5 px-4 text-slate-500 text-xs">Portal de Música & Cultura</td>
+                                        <td class="py-3.5 px-4 text-right font-semibold text-slate-700">12.307</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-500">0,00%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">Monitorado</span></td>
+                                    </tr>
+
+                                    <!-- Sinônimos / Bíblia Online -->
+                                    <tr class="hover:bg-slate-50/50 transition">
+                                        <td class="py-3.5 px-4 font-bold text-slate-800">sinonimos.com.br & bibliaonline.com.br</td>
+                                        <td class="py-3.5 px-4 text-slate-500 text-xs">Portais de Pesquisa e Leitura</td>
+                                        <td class="py-3.5 px-4 text-right font-semibold text-slate-700">21.255</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-500">0,01%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-full">Monitorado</span></td>
+                                    </tr>
+
+                                    <!-- Correio Braziliense & UOL -->
+                                    <tr class="hover:bg-teal-50/40 transition bg-teal-50/20">
+                                        <td class="py-3.5 px-4 font-bold text-teal-950 flex items-center gap-2">
+                                            <span class="h-2 w-2 rounded-full bg-teal-600"></span>
+                                            <span>uol.com.br & correiobraziliense.com.br</span>
+                                        </td>
+                                        <td class="py-3.5 px-4 text-slate-600 text-xs">Portais Nacionais de Notícias</td>
+                                        <td class="py-3.5 px-4 text-right font-bold text-teal-900">26.052</td>
+                                        <td class="py-3.5 px-4 text-right font-semibold text-slate-700">1,33%*</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-teal-700 bg-teal-100 px-2.5 py-0.5 rounded-full">Canal Qualificado</span></td>
+                                    </tr>
+
+                                    <!-- Jogos & Entretenimento (Governança Ativa) -->
+                                    <tr class="hover:bg-amber-50/40 transition">
+                                        <td class="py-3.5 px-4 font-bold text-slate-700">tibiawiki, vimm.net, op.gg & outros games</td>
+                                        <td class="py-3.5 px-4 text-slate-500 text-xs">Inventário Amplo Automático do Google</td>
+                                        <td class="py-3.5 px-4 text-right font-semibold text-slate-600">36.840</td>
+                                        <td class="py-3.5 px-4 text-right text-slate-500">0,00%</td>
+                                        <td class="py-3.5 px-4 text-right"><span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-0.5 rounded-full">Filtro / Negativação</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-400 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <span>*Notas: Veículos com múltiplas entradas foram consolidados para legibilidade executiva. Taxas de até 2,24% evidenciam engajamento direto com a marca.</span>
+                        <span class="font-semibold text-teal-700">Governança contínua ativa na Grande Curitiba</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: PERFORMANCE DE PALAVRAS-CHAVE PRINCIPAIS (PRINT 2) -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-teal-600"></span>
+                    <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Termos de Pesquisa Mais Acionados no Google Ads</h2>
+                </div>
+                <p class="text-sm text-slate-500">Mapeamento dos termos que mais converteram buscas em visitas e agendamentos, com destaque para a especialidade de gastro e os testes SIBO/IMO.</p>
+            </div>
+
+            <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden print-card">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50 border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                <th class="py-4 px-6">Palavra-Chave de Pesquisa</th>
+                                <th class="py-4 px-6 text-right">Impressões</th>
+                                <th class="py-4 px-6 text-right">Cliques</th>
+                                <th class="py-4 px-6 text-right">CTR (Taxa de Cliques)</th>
+                                <th class="py-4 px-6 text-right">Foco Estratégico</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-sm">
+                            
+                            <!-- Termo 1 (Destaque Principal) -->
+                            <tr class="bg-teal-500/10 hover:bg-teal-500/15 transition font-bold">
+                                <td class="py-4 px-6 text-teal-950 flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                    <span>gastroenterologista curitiba</span>
+                                </td>
+                                <td class="py-4 px-6 text-right text-teal-900">4.306</td>
+                                <td class="py-4 px-6 text-right text-teal-900">469</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-black">10,89%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs font-bold text-teal-800 bg-teal-100 px-2.5 py-0.5 rounded-full">Líder Absoluto</span></td>
+                            </tr>
+
+                            <!-- Termo 2: Teste SIBO Curitiba -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-900 flex items-center gap-2">
+                                    <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                                    <span>teste respiratorio sibo curitiba</span>
+                                </td>
+                                <td class="py-4 px-6 text-right text-slate-600 font-medium">490</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">81</td>
+                                <td class="py-4 px-6 text-right font-black text-amber-600">16,53%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">Procedimento Nobre</span></td>
+                            </tr>
+
+                            <!-- Termo 3: gastroenterologista -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-medium text-slate-800">gastroenterologista</td>
+                                <td class="py-4 px-6 text-right text-slate-600">2.081</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">70</td>
+                                <td class="py-4 px-6 text-right font-bold text-slate-700">3,36%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">Ampla Busca</span></td>
+                            </tr>
+
+                            <!-- Termo 4: gastro unimed -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-medium text-slate-800">gastro unimed</td>
+                                <td class="py-4 px-6 text-right text-slate-600">434</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">68</td>
+                                <td class="py-4 px-6 text-right font-black text-teal-700">15,67%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full">Convênio Curitiba</span></td>
+                            </tr>
+
+                            <!-- Termo 5: antonio hirt -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-900">antonio hirt</td>
+                                <td class="py-4 px-6 text-right text-slate-600">211</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">32</td>
+                                <td class="py-4 px-6 text-right font-black text-teal-700">15,17%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full">Busca de Marca</span></td>
+                            </tr>
+
+                            <!-- Termo 6: gastroenterologista unimed curitiba -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-medium text-slate-800">gastroenterologista unimed curitiba</td>
+                                <td class="py-4 px-6 text-right text-slate-600">180</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">31</td>
+                                <td class="py-4 px-6 text-right font-black text-teal-700">17,22%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full">Local Qualificado</span></td>
+                            </tr>
+
+                            <!-- Termo 7: teste respiratorio sibo -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-medium text-slate-800">teste respiratorio sibo</td>
+                                <td class="py-4 px-6 text-right text-slate-600">492</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">29</td>
+                                <td class="py-4 px-6 text-right font-bold text-amber-600">5,89%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full">Exame de Precisão</span></td>
+                            </tr>
+
+                            <!-- Termo 8: exame sibo curitiba -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-medium text-slate-800">exame sibo curitiba</td>
+                                <td class="py-4 px-6 text-right text-slate-600">329</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">25</td>
+                                <td class="py-4 px-6 text-right font-bold text-amber-600">7,60%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full">Exame de Precisão</span></td>
+                            </tr>
+
+                            <!-- Termo 9: médico disbiose intestinal -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-medium text-slate-800">médico disbiose intestinal</td>
+                                <td class="py-4 px-6 text-right text-slate-600">93</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">18</td>
+                                <td class="py-4 px-6 text-right font-black text-teal-700">19,35%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full">Alta Especialidade</span></td>
+                            </tr>
+
+                            <!-- Termo 10: teste respiratório imo -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-medium text-slate-800">teste respiratório imo</td>
+                                <td class="py-4 px-6 text-right text-slate-600">106</td>
+                                <td class="py-4 px-6 text-right text-slate-700 font-semibold">9</td>
+                                <td class="py-4 px-6 text-right font-bold text-amber-600">8,49%</td>
+                                <td class="py-4 px-6 text-right"><span class="text-xs text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-full">Exame IMO</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 6: AGENDAMENTOS POR MÊS NA DOCTORALIA (EVOLUÇÃO HISTÓRICA) -->
+        <section class="space-y-6">
+            <div class="space-y-1">
+                <div class="flex items-center gap-2">
+                    <span class="h-2.5 w-2.5 rounded-full bg-teal-600"></span>
+                    <h2 class="text-xl font-extrabold text-slate-900 tracking-tight">Evolução de Agendamentos & Pacientes Novos</h2>
+                </div>
+                <p class="text-sm text-slate-500">Histórico completo de 2026 destacando a aceleração em Agosto com o início das campanhas de GDN e consolidação da autoridade médica.</p>
+            </div>
+
+            <!-- Gráfico de Evolução Mensal -->
+            <div class="bg-white rounded-[2.5rem] p-6 sm:p-8 shadow-sm border border-slate-100 print-card space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900">Curva de Crescimento Mensal (Total vs. Novos Pacientes)</h3>
+                        <p class="text-xs text-slate-400">Janeiro a Setembro de 2026 (Agosto marca o recorde do ano com 395 agendamentos)</p>
+                    </div>
+                    <div class="flex items-center gap-4 text-xs font-bold">
+                        <div class="flex items-center gap-2">
+                            <span class="h-3 w-3 rounded-full bg-teal-600"></span>
+                            <span class="text-slate-700">Agendamentos Totais</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="h-3 w-3 rounded-full bg-amber-500"></span>
+                            <span class="text-slate-700">Pacientes Novos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="h-72 w-full relative">
+                    <canvas id="monthlyAppointmentsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Tabela de Agendamentos Mês a Mês com Destaques -->
+            <div class="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden print-card">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50/50 border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                <th class="py-4 px-6">Mês / Período</th>
+                                <th class="py-4 px-6 text-right">Agendamentos Totais</th>
+                                <th class="py-4 px-6 text-right">Pacientes Novos (1ª Consulta)</th>
+                                <th class="py-4 px-6 text-right">% Novos Pacientes</th>
+                                <th class="py-4 px-6 text-left">Observações Estratégicas</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-sm">
+                            
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-800">Janeiro</td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">388</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">156</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">40,2%</td>
+                                <td class="py-4 px-6 text-xs text-slate-400">Início de ciclo anual forte</td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-800">Fevereiro</td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">307</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">112</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">36,5%</td>
+                                <td class="py-4 px-6 text-xs text-slate-400">Mês menor (Carnaval)</td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-800">Março</td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">386</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">148</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">38,3%</td>
+                                <td class="py-4 px-6 text-xs text-slate-400">Recuperação e alta procura</td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50/50 transition bg-slate-50/40">
+                                <td class="py-4 px-6 font-bold text-slate-800">Abril</td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">335</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">119</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">35,5%</td>
+                                <td class="py-4 px-6 text-xs font-semibold text-teal-700">
+                                    <span class="inline-flex items-center gap-1 bg-teal-50 px-2 py-0.5 rounded-md">Mês com 5 quintas-feiras</span>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-800">Maio</td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">296</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">115</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">38,8%</td>
+                                <td class="py-4 px-6 text-xs text-slate-400">Volume regular de retorno</td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-800">Junho</td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">260</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">94</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">36,1%</td>
+                                <td class="py-4 px-6 text-xs text-slate-400">Período de entressafra</td>
+                            </tr>
+
+                            <tr class="hover:bg-slate-50/50 transition bg-slate-50/40">
+                                <td class="py-4 px-6 font-bold text-slate-800">Julho</td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">313</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">149</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">47,6%</td>
+                                <td class="py-4 px-6 text-xs font-semibold text-teal-700">
+                                    <span class="inline-flex items-center gap-1 bg-teal-50 px-2 py-0.5 rounded-md">Mês com 5 quintas-feiras</span>
+                                </td>
+                            </tr>
+
+                            <!-- AGOSTO - RECORDE COM INÍCIO DO GDN -->
+                            <tr class="hover:bg-amber-50/30 transition bg-amber-500/10 font-bold border-l-4 border-amber-500">
+                                <td class="py-4 px-6 text-amber-950 font-black">
+                                    <span>Agosto</span>
+                                    <span class="ml-2 text-[11px] font-extrabold uppercase bg-amber-500 text-white px-2 py-0.5 rounded-md">Início do GDN</span>
+                                </td>
+                                <td class="py-4 px-6 text-right font-black text-amber-700 text-base">395</td>
+                                <td class="py-4 px-6 text-right text-amber-800 font-black text-base italic">162</td>
+                                <td class="py-4 px-6 text-right font-black text-amber-900">41,0%</td>
+                                <td class="py-4 px-6 text-xs font-bold text-amber-900">
+                                    Recorde anual de agendamentos e novos pacientes!
+                                </td>
+                            </tr>
+
+                            <!-- SETEMBRO PARCIAL -->
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 font-bold text-slate-800">
+                                    <span>Setembro</span>
+                                    <span class="text-xs font-normal text-slate-400">(Parcial até 13/09)</span>
+                                </td>
+                                <td class="py-4 px-6 text-right font-black text-slate-900">125</td>
+                                <td class="py-4 px-6 text-right text-teal-700 font-semibold italic">38</td>
+                                <td class="py-4 px-6 text-right font-medium text-slate-600">30,4%</td>
+                                <td class="py-4 px-6 text-xs text-slate-400">Ritmo projetado para fechar acima de 300 consultas</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 7: REPUTAÇÃO E PROVA SOCIAL DOCTORALIA -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Card de Avaliações / Opiniões (1/3) -->
+            <div class="bg-slate-900 text-white rounded-[2.5rem] p-8 shadow-xl flex flex-col justify-between relative overflow-hidden print-card">
+                <div class="absolute -right-12 -bottom-12 w-32 h-32 rounded-full bg-amber-500/15 blur-2xl"></div>
+                
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase tracking-wider text-amber-400 font-bold">Reputação Doctoralia</span>
+                        <span class="flex items-center gap-0.5">
+                            <svg class="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                            <span class="text-xs font-bold text-amber-400 ml-1">5.0</span>
+                        </span>
+                    </div>
+
+                    <div class="flex items-baseline gap-2">
+                        <div class="text-5xl font-black text-white">1.518</div>
+                        <div class="text-sm text-slate-400">Opiniões Acumuladas</div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-5 space-y-3">
+                    <div class="flex items-center justify-between text-xs text-slate-300">
+                        <span>Novas Opiniões no Período</span>
+                        <span class="font-extrabold text-teal-400 bg-teal-950/70 border border-teal-800/80 px-2.5 py-1 rounded-full">+18 Avaliações</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Mais de 1.500 pacientes atestam a qualidade técnica e o atendimento humanizado do Dr. Antonio Hirt em Curitiba.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card Analítico do Círculo Virtuoso (2/3) -->
+            <div class="lg:col-span-2 bg-teal-900 text-white rounded-[2.5rem] p-8 sm:p-10 shadow-xl relative overflow-hidden flex flex-col justify-between print-card">
+                <div class="absolute right-0 bottom-0 top-0 w-1/3 bg-gradient-to-l from-teal-800/40 to-transparent pointer-events-none"></div>
+
+                <div class="space-y-4 relative z-10">
+                    <span class="text-xs font-bold text-amber-400 uppercase tracking-widest">O Círculo Virtuoso da Autoridade Médica</span>
+                    <h3 class="text-2xl font-black tracking-tight leading-tight">Como a Presença em Display e Pesquisa Multiplica Agendamentos</h3>
+                    <p class="text-sm text-teal-100 font-light leading-relaxed">
+                        O salto verificado em <strong class="text-white font-bold">Agosto (recorde de 395 agendamentos e 162 pacientes novos)</strong> comprova a sinergia entre as duas pontas: a <strong>Rede de Display (GDN)</strong> construiu presença constante para mais de 1 milhão de impressões na mente do paciente no raio de 20 km, enquanto a <strong>Rede de Pesquisa</strong> capturou a demanda exata no momento da busca por gastroenterologia e exames SIBO/IMO.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 mt-4 border-t border-teal-800/80 relative z-10">
+                    <div>
+                        <div class="text-amber-400 text-base font-bold">1. Atração e Alcance</div>
+                        <p class="text-xs text-teal-200/90 mt-1">1.087.940 impressões totais com 95% em mobile.</p>
+                    </div>
+                    <div>
+                        <div class="text-amber-400 text-base font-bold">2. Validação Social</div>
+                        <p class="text-xs text-teal-200/90 mt-1">1.518 avaliações com nota máxima transmitem total segurança.</p>
+                    </div>
+                    <div>
+                        <div class="text-amber-400 text-base font-bold">3. Conversão em Consulta</div>
+                        <p class="text-xs text-teal-200/90 mt-1">639 ligações diretas e 447 interações via Instagram.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-100 py-8 mt-12 no-print">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400 text-xs">
+            <div class="flex items-center gap-2">
+                <strong class="font-bold text-slate-600">Mídias 360</strong>
+                <span>• Inteligência e Performance Médica © 2026</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span>Relatório Gerencial de Performance</span>
+                <span>•</span>
+                <span class="text-teal-600 font-semibold">Dr. Antonio Hirt</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS DE INICIALIZAÇÃO (LEAFLET + CHART.JS) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            // 0. NOVO GRÁFICO: VISIBILIDADE DO PERFIL (REPRODUZINDO O PRINT DO USUÁRIO)
+            const visCtx = document.getElementById('profileVisibilityChart');
+            if (visCtx) {
+                new Chart(visCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['jan 2026', 'fev 2026', 'mar 2026', 'abr 2026', 'mai 2026', 'jun 2026', 'jul 2026', 'ago 2026'],
+                        datasets: [{
+                            label: 'Visualizações do Perfil',
+                            data: [1550, 1320, 1780, 1640, 1700, 1490, 1820, 7850],
+                            backgroundColor: [
+                                '#0d9488',
+                                '#0d9488',
+                                '#0d9488',
+                                '#0d9488',
+                                '#0d9488',
+                                '#0d9488',
+                                '#0d9488',
+                                '#0d9488'
+                            ],
+                            borderRadius: 6,
+                            barPercentage: 0.28,
+                            categoryPercentage: 0.85
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    afterLabel: function(context) {
+                                        if (context.dataIndex === 7) {
+                                            return 'Início do GDN: Salto Histórico de Exposição!';
+                                        }
+                                        return 'Média histórica linear';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#f1f5f9' },
+                                ticks: { display: false }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: {
+                                    color: '#475569',
+                                    font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 1. INICIALIZAÇÃO DO MAPA LEAFLET (Raio de 20 km)
+            if (typeof L !== 'undefined') {
+                const lat = -25.4284;
+                const lng = -49.2618;
+
+                const map = L.map('leafletMap', {
+                    center: [lat, lng],
+                    zoom: 11,
+                    scrollWheelZoom: false,
+                    zoomControl: true
+                });
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+
+                // Círculo 3: Raio 20km (Âmbar - Região Metropolitana e Alta Abrangência)
+                const circle20km = L.circle([lat, lng], {
+                    radius: 20000,
+                    color: '#d97706',
+                    fillColor: '#f59e0b',
+                    fillOpacity: 0.10,
+                    weight: 2,
+                    dashArray: '6, 6'
+                }).addTo(map);
+
+                // Círculo 2: Raio 10km (Teal Médio - Malha Urbana Completa)
+                const circle10km = L.circle([lat, lng], {
+                    radius: 10000,
+                    color: '#0f766e',
+                    fillColor: '#14b8a6',
+                    fillOpacity: 0.16,
+                    weight: 2
+                }).addTo(map);
+
+                // Círculo 1: Raio 5km (Teal Alta Densidade - Centro / Batel / Juvevê)
+                const circle5km = L.circle([lat, lng], {
+                    radius: 5000,
+                    color: '#0d9488',
+                    fillColor: '#0d9488',
+                    fillOpacity: 0.28,
+                    weight: 2.5
+                }).addTo(map);
+
+                // Enquadramento automático para o raio de 20km
+                map.fitBounds(circle20km.getBounds(), { padding: [20, 20] });
+
+                // Marcador da Clínica
+                const marker = L.marker([lat, lng]).addTo(map);
+                marker.bindPopup(`
+                    <div style="font-family: 'Plus Jakarta Sans', sans-serif; padding: 4px;">
+                        <strong style="color: #0f766e; font-size: 13px;">Consultório Dr. Antonio Hirt</strong><br/>
+                        <span style="font-size: 11px; color: #475569;">Rua Amintas de Barros, 519 (Cj. 103)<br/>Centro - Curitiba / PR</span><br/>
+                        <span style="font-size: 10px; color: #d97706; font-weight: 800; display: block; margin-top: 4px;">Raio Operacional: 20 km</span>
+                    </div>
+                `).openPopup();
+            }
+
+            // 2. INICIALIZAÇÃO DO GRÁFICO CHART.JS (Evolução Mensal de Agendamentos)
+            const ctx = document.getElementById('monthlyAppointmentsChart');
+            if (ctx) {
+                new Chart(ctx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril*', 'Maio', 'Junho', 'Julho*', 'Agosto (GDN)', 'Setembro (Parcial)'],
+                        datasets: [
+                            {
+                                label: 'Agendamentos Totais',
+                                data: [388, 307, 386, 335, 296, 260, 313, 395, 125],
+                                backgroundColor: [
+                                    'rgba(13, 148, 136, 0.85)',
+                                    'rgba(13, 148, 136, 0.85)',
+                                    'rgba(13, 148, 136, 0.85)',
+                                    'rgba(13, 148, 136, 0.85)',
+                                    'rgba(13, 148, 136, 0.85)',
+                                    'rgba(13, 148, 136, 0.85)',
+                                    'rgba(13, 148, 136, 0.85)',
+                                    'rgba(217, 119, 6, 0.95)', // Destaque em âmbar para Agosto
+                                    'rgba(148, 163, 184, 0.65)'
+                                ],
+                                borderRadius: 8,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8
+                            },
+                            {
+                                label: 'Pacientes Novos (1ª Consulta)',
+                                data: [156, 112, 148, 119, 115, 94, 149, 162, 38],
+                                backgroundColor: [
+                                    'rgba(20, 184, 166, 0.45)',
+                                    'rgba(20, 184, 166, 0.45)',
+                                    'rgba(20, 184, 166, 0.45)',
+                                    'rgba(20, 184, 166, 0.45)',
+                                    'rgba(20, 184, 166, 0.45)',
+                                    'rgba(20, 184, 166, 0.45)',
+                                    'rgba(20, 184, 166, 0.45)',
+                                    'rgba(245, 158, 11, 0.85)', // Destaque em âmbar para Agosto
+                                    'rgba(203, 213, 225, 0.65)'
+                                ],
+                                borderRadius: 8,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.8
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    afterLabel: function(context) {
+                                        if (context.dataIndex === 7) {
+                                            return 'Recorde anual com início da Rede de Display!';
+                                        }
+                                        if (context.dataIndex === 3 || context.dataIndex === 6) {
+                                            return 'Mês com 5 quintas-feiras';
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 450,
+                                grid: {
+                                    color: '#f1f5f9'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
